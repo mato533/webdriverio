@@ -208,6 +208,14 @@ class Launcher {
     }
 
     /**
+     * Return Promise to avoid type definition with CJS
+     * @returns configParser
+     */
+    async getConfigParser(){
+        return this.configParser
+    }
+
+    /**
      * run onComplete hook
      * Even if it fails we still want to see result and end logger stream.
      * Also ensure that user hooks are run before service hooks so that e.g.

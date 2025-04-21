@@ -21,6 +21,9 @@ class Launcher {
     async initialize ():Promise<void> {
         return (await this.#esmLauncher).initialize()
     }
+    async getConfigParser(){
+        return (await this.#esmLauncher).getConfigParser()
+    }
 }
 
 async function run(): Promise<false | void> {
