@@ -18,6 +18,9 @@ class Launcher {
     async run(): Promise<undefined | number> {
         return (await this.#esmLauncher).run()
     }
+    async initialize ():Promise<void> {
+        return (await this.#esmLauncher).initialize()
+    }
 }
 
 async function run(): Promise<false | void> {
