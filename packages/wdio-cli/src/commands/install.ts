@@ -5,17 +5,19 @@ import path from 'node:path'
 import type { Argv } from 'yargs'
 
 import {
-    getProjectRoot,
+
     replaceConfig,
     findInConfig,
     addServiceDeps,
-    convertPackageHashToObject,
     detectPackageManager
 } from '../utils.js'
+import { SUPPORTED_PACKAGES } from 'create-wdio/constants'
+
 import { installPackages } from '../install.js'
-import { formatConfigFilePaths, canAccessConfigPath, missingConfigurationPrompt } from './config.js'
-import { SUPPORTED_PACKAGES, CLI_EPILOGUE } from '../constants.js'
+import {  CLI_EPILOGUE } from '../constants.js'
 import type { InstallCommandArguments, SupportedPackage } from '../types.js'
+
+import { convertPackageHashToObject, getProjectRoot, formatConfigFilePaths, canAccessConfigPath, missingConfigurationPrompt } from 'create-wdio/utils'
 
 const supportedInstallations = {
     runner: SUPPORTED_PACKAGES.runner.map(({ value }) => convertPackageHashToObject(value)),
@@ -66,7 +68,6 @@ export async function handler(argv: InstallCommandArguments) {
     if (!Object.keys(supportedInstallations).includes(type)) {
         console.log(`Type ${type} is not supported.`)
         process.exit(0)
-        return
     }
 
     /**
@@ -80,8 +81,6 @@ export async function handler(argv: InstallCommandArguments) {
             `- ${options.join('\n- ')}`
         )
         process.exit(0)
-        // keep return for unit test purposes
-        return
     }
 
     const defaultPath = path.resolve(process.cwd(), 'wdio.conf')
@@ -95,8 +94,6 @@ export async function handler(argv: InstallCommandArguments) {
             return handler(argv)
         } catch {
             process.exit(1)
-            // keep return for unit test purposes
-            return
         }
     }
 
@@ -107,8 +104,6 @@ export async function handler(argv: InstallCommandArguments) {
     if (match && match[0].includes(name)) {
         console.log(`The ${type} ${name} is already part of your configuration.`)
         process.exit(0)
-        // keep return for unit test purposes
-        return
     }
 
     const selectedPackage = supportedInstallations[type].find(({ short }) => short === name) as SupportedPackage
@@ -122,8 +117,6 @@ export async function handler(argv: InstallCommandArguments) {
 
     if (!success) {
         process.exit(1)
-        // keep return for unit test purposes
-        return
     }
 
     console.log(`Package "${selectedPackage.package}" installed successfully.`)

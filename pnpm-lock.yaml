@@ -795,9 +795,6 @@ importers:
       read-pkg-up:
         specifier: ^10.0.0
         version: 10.1.0
-      recursive-readdir:
-        specifier: ^2.2.3
-        version: 2.2.3
       tsx:
         specifier: ^4.7.2
         version: 4.19.4

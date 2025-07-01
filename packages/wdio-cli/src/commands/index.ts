@@ -1,4 +1,6 @@
-import * as config from './config.js'
+
+import { config } from 'create-wdio'
+
 import * as install from './install.js'
 import * as repl from './repl.js'
 import * as run from './run.js'
