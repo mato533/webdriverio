@@ -5,9 +5,10 @@ import { vi, describe, it, expect, afterEach, beforeEach } from 'vitest'
 import { yargs } from 'yargs'
 
 import * as installCmd from '../../src/commands/install.js'
-import * as configCmd from '../../src/commands/config.js'
+import { config as configCmd } from 'create-wdio'
 import * as utils from '../../src/utils.js'
 import { installPackages } from '../../src/install.js'
+import { formatConfigFilePaths } from '../../src/utils.js'
 
 vi.mock('yargs')
 vi.mock('node:fs/promises', async (orig) => ({
@@ -27,6 +28,7 @@ vi.mock('../../src/utils', async (origMod) => {
     const orig: any = await origMod()
     return {
         ...orig,
+        formatConfigFilePaths: vi.fn(),
         detectPackageManager: vi.fn().mockReturnValue('npm'),
     }
 })
@@ -67,7 +69,7 @@ describe('Command: install', () => {
     })
 
     it('should prompt missing configuration', async () => {
-        vi.spyOn(configCmd, 'formatConfigFilePaths').mockReturnValue({ fullPath: '/absolute/path/to/wdio.conf.js', fullPathNoExtension: '/absolute/path/to/wdio.conf' } as any)
+        vi.mocked(formatConfigFilePaths).mockReturnValue({ fullPath: '/absolute/path/to/wdio.conf.js', fullPathNoExtension: '/absolute/path/to/wdio.conf' } as any)
         vi.spyOn(configCmd, 'missingConfigurationPrompt').mockImplementation(() => Promise.reject())
         vi.mocked(fs.access).mockRejectedValue(new Error('Doesn\'t exist'))
 

@@ -1,8 +1,8 @@
 import type { Options, Reporters } from '@wdio/types'
 import type { NormalizedPackageJson } from 'read-pkg-up'
-import type { PMs } from 'create-wdio/constants'
+import type { SUPPORTED_PACKAGE_MANAGERS } from 'create-wdio/utils'
 
-export type PM = typeof PMs[number]
+export type PM = typeof SUPPORTED_PACKAGE_MANAGERS[number]
 
 export interface RunCommandArguments {
     coverage?: boolean

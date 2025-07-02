@@ -21,7 +21,8 @@ import type {
     ReplCommandArguments,
     SupportedPackage,
 } from './types.js'
-import { PMs } from 'create-wdio/constants'
+import { SUPPORTED_PACKAGE_MANAGERS } from 'create-wdio/utils'
+import path from 'node:path'
 
 const log = logger('@wdio/cli:utils')
 
@@ -328,7 +329,7 @@ export function detectPackageManager() {
     }
     const detectedPM = process.env.npm_config_user_agent.split('/')[0].toLowerCase()
 
-    const matchedPM = PMs.find(pm => pm.toLowerCase() === detectedPM)
+    const matchedPM = SUPPORTED_PACKAGE_MANAGERS.find(pm => pm.toLowerCase() === detectedPM)
 
     return matchedPM || 'npm'
 }
@@ -439,4 +440,17 @@ enum NodeVersion {
 
 export function nodeVersion(type: keyof typeof NodeVersion): number {
     return process.versions.node.split('.').map(Number)[NodeVersion[type]]
+}
+
+/**
+ * Helper utility used in `run` and `install` command to format a provided config path,
+ * giving it back as an absolute path, and a version without the file extension
+ * @param config the initially given file path to the WDIO config file
+ */
+export async function formatConfigFilePaths(config: string) {
+    const fullPath = path.isAbsolute(config)
+        ? config
+        : path.join(process.cwd(), config)
+    const fullPathNoExtension = fullPath.substring(0, fullPath.lastIndexOf(path.extname(fullPath)))
+    return { fullPath, fullPathNoExtension }
 }

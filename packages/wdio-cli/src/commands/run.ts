@@ -5,10 +5,10 @@ import type { Argv } from 'yargs'
 
 import Launcher from '../launcher.js'
 import Watcher from '../watcher.js'
-import { coerceOptsFor } from '../utils.js'
+import { coerceOptsFor, formatConfigFilePaths } from '../utils.js'
 import { CLI_EPILOGUE } from '../constants.js'
 import type { RunCommandArguments } from '../types.js'
-import { canAccessConfigPath, formatConfigFilePaths, missingConfigurationPrompt } from 'create-wdio/utils'
+import { canAccessConfigPath, missingConfigurationPrompt } from 'create-wdio/utils'
 
 export const command = 'run <configPath>'
 
